@@ -1,5 +1,5 @@
 import { GetStaticPaths, GetStaticProps } from 'next'
-import { getAllPostIds, getPostData } from '../../lib/post'
+import { getAllPostIds, getPostData } from '../../../lib/post'
 
 import Head from 'next/head'
 import React from 'react'
