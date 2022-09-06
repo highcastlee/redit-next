@@ -1,39 +1,38 @@
-import { BeforeInsert, Column, Entity, Index, JoinColumn, ManyToOne, OneToMany } from "typeorm";
 import { Exclude, Expose } from "class-transformer";
-
+import { BeforeInsert, Column, Entity, Index, JoinColumn, ManyToOne, OneToMany } from "typeorm";
+import { makeId } from "../utils/helpers";
 import BaseEntity from './Entity';
 import Post from "./Post";
 import { User } from "./User";
 import Vote from "./Vote";
-import { makeId } from "../utils/helpers";
 
 @Entity("comments")
 export default class Comment extends BaseEntity {
     @Index()
     @Column()
-    identifier!: string;
+    identifier: string;
 
     @Column()
-    body!: string;
+    body: string;
 
     @Column()
-    username!: string;
+    username: string;
 
     @ManyToOne(() => User)
     @JoinColumn({ name: "username", referencedColumnName: "username" })
-    user!: User;
+    user: User
 
     @Column()
-    postId!: number;
+    postId: number;
 
     @ManyToOne(() => Post, (post) => post.comments, { nullable: false })
-    post!: Post;
+    post: Post;
 
     @Exclude()
     @OneToMany(() => Vote, (vote) => vote.comment)
-    votes!: Vote[];
+    votes: Vote[]
 
-    protected userVote!: number;
+    protected userVote: number;
 
     setUserVote(user: User) {
         const index = this.votes?.findIndex(v => v.username === user.username);

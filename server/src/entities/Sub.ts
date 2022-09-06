@@ -1,7 +1,6 @@
-import { Column, Entity, Index, JoinColumn, ManyToMany, ManyToOne, OneToMany } from "typeorm";
-
-import BaseEntity from './Entity';
 import { Expose } from "class-transformer";
+import { Column, Entity, Index, JoinColumn, ManyToMany, ManyToOne, OneToMany } from "typeorm";
+import BaseEntity from './Entity';
 import Post from "./Post";
 import { User } from "./User";
 
@@ -9,29 +8,29 @@ import { User } from "./User";
 export default class Sub extends BaseEntity {
     @Index()
     @Column({ unique: true })
-    name!: string;
+    name: string;
 
     @Column()
-    title!: string;
+    title: string;
 
     @Column({ type: 'text', nullable: true })
-    description!: string;
+    description: string;
 
     @Column({ nullable: true })
-    imageUrn!: string;
+    imageUrn: string;
 
     @Column({ nullable: true })
-    bannerUrn!: string;
+    bannerUrn: string;
 
     @Column()
-    username!: string;
+    username: string;
 
     @ManyToOne(() => User)
     @JoinColumn({ name: "username", referencedColumnName: "username" })
-    user!: User;
+    user: User;
 
     @OneToMany(() => Post, (post) => post.sub)
-    posts!: Post[];
+    posts: Post[]
 
     @Expose()
     get imageUrl(): string {
@@ -40,7 +39,7 @@ export default class Sub extends BaseEntity {
     }
 
     @Expose()
-    get bannerUrl(): string|undefined {
+    get bannerUrl(): string {
         return this.bannerUrn ? `${process.env.APP_URL}/images/${this.bannerUrn}` :
             undefined;
     }

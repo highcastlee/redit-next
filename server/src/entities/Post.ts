@@ -1,9 +1,8 @@
-import { BeforeInsert, Column, Entity, Index, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 import { Exclude, Expose } from 'class-transformer';
+import { BeforeInsert, Column, Entity, Index, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 import { makeId, slugify } from '../utils/helpers';
-
-import BaseEntity from './Entity';
 import Comment from './Comment';
+import BaseEntity from './Entity';
 import Sub from './Sub';
 import { User } from './User';
 import Vote from './Vote';
@@ -12,39 +11,39 @@ import Vote from './Vote';
 export default class Post extends BaseEntity {
     @Index()
     @Column()
-    identifier!: string;
+    identifier: string;
 
     @Column()
-    title!: string;
+    title: string;
 
     @Index()
     @Column()
-    slug!: string;
+    slug: string;
 
     @Column({ nullable: true, type: "text" })
-    body!: string;
+    body: string;
 
     @Column()
-    subName!: string;
+    subName: string;
 
     @Column()
-    username!: string;
+    username: string;
 
     @ManyToOne(() => User, (user) => user.posts)
     @JoinColumn({ name: "username", referencedColumnName: "username" })
-    user!: User;
+    user: User;
 
     @ManyToOne(() => Sub, (sub) => sub.posts)
-    @JoinColumn({ name: "subName", referencedColumnName: "name" })
-    sub!: Sub;
+    @JoinColumn({ name: "subName", referencedColumnName: "name"})
+    sub: Sub;
 
     @Exclude()
     @OneToMany(() => Comment, (comment) => comment.post)
-    comments!: Comment[];
+    comments: Comment[];
 
     @Exclude()
     @OneToMany(() => Vote, (vote) => vote.post)
-    votes!: Vote[];
+    votes: Vote[];
 
     @Expose() get url(): string {
         return `/r/${this.subName}/${this.identifier}/${this.slug}`
@@ -58,7 +57,7 @@ export default class Post extends BaseEntity {
         return this.votes?.reduce((memo, curt) => memo + (curt.value || 0), 0);
     }
 
-    protected userVote!: number;
+    protected userVote: number;
 
     setUserVote(user: User) {
         const index = this.votes?.findIndex(v => v.username === user.username);
