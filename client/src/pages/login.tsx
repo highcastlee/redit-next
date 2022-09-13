@@ -1,4 +1,4 @@
-import { ACTION, useAuthDispatch } from "../context/auth";
+import { ACTION, useAuthDispatch, useAuthState } from "../context/auth";
 import React, { FormEvent, useState } from "react";
 
 import InputGroup from "../components/InputGroup";
@@ -11,8 +11,10 @@ function Login(){
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState<any>({});
   const dispatch = useAuthDispatch();
-
+  const {authenticated} = useAuthState();
   let router = useRouter();
+  
+  if(authenticated) router.push("/");
 
   const handleSubmit = async (e:FormEvent) => {
     e.preventDefault();

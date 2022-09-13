@@ -3,6 +3,7 @@ import React, { FormEvent, useState } from "react";
 import InputGroup from "../components/InputGroup";
 import Link from "next/link";
 import axios from "axios";
+import { useAuthState } from "../context/auth";
 import { useRouter } from "next/router";
 
 function Register(){
@@ -10,8 +11,10 @@ function Register(){
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState<any>({});
+  const {authenticated} = useAuthState();
   let router = useRouter();
 
+  if(authenticated) router.push("/");
   const handleSubmit = async (e:FormEvent) => {
     e.preventDefault();
     try{
