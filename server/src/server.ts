@@ -1,18 +1,18 @@
-import express from "express";
-import morgan from "morgan";
 import { AppDataSource } from "./data-source"
-
 import authRoutes from './routes/auth';
-import subRoutes from './routes/subs';
-import postRoutes from './routes/posts';
-import voteRoutes from './routes/votes';
-import userRoutes from './routes/users';
-
+import cookieParser from "cookie-parser";
 import cors from 'cors';
 import dotenv from 'dotenv';
-import cookieParser from "cookie-parser";
+import express from "express";
+import morgan from "morgan";
+import postRoutes from './routes/posts';
+import subRoutes from './routes/subs';
+import userRoutes from './routes/users';
+import voteRoutes from './routes/votes';
 
 const app = express();
+dotenv.config();
+
 const origin = process.env.ORIGIN;
 app.use(cors({
     origin,
@@ -21,7 +21,6 @@ app.use(cors({
 app.use(express.json());
 app.use(morgan('dev'));
 app.use(cookieParser());
-dotenv.config();
 
 app.get("/", (_, res) => res.send("running"));
 app.use("/api/auth", authRoutes)
