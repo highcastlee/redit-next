@@ -1,5 +1,5 @@
 import { Post, Sub } from '../types'
-// import useSWRInfinite from 'swr/infinite';
+import useSWRInfinite from 'swr/infinite';
 // import PostCard from '../components/PostCard'
 import { useEffect, useState } from 'react'
 
@@ -19,9 +19,7 @@ const Home: NextPage = () => {
 
   const address = "http://localhost:4000/api/subs/sub/topSubs";
   const { data : topSubs } = useSWR<Sub[]>(address, fetcher);
-
-
-
+  console.log(topSubs)
   return (
     <div className='flex max-w-5xl px-4 pt-5 mx-auto'>
       {/* 포스트 리스트 */}
@@ -62,9 +60,9 @@ const Home: NextPage = () => {
                     />
                   </a>
                 </Link>
-                <Link href={`/subs/topSubs`}>
+                <Link href={`/r/${sub.name}`}>
                   <a className='ml-2 font-bold hover:cursor-pointer'>
-                    /r/{sub.name}
+                    {sub.name}
                   </a>
                 </Link>
                 <p className='ml-auto font-md'>{sub.postCount}</p>
