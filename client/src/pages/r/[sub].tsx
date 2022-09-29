@@ -22,20 +22,11 @@ const SubPage = () => {
   const router = useRouter();
   const subName = router.query.sub;
 
-  const fetcher = async (url: string) => {
-    try {
-      const res = await axios.get(url);
-      return res.data;
-    } catch (error: any) {
-      throw error.response.data;
-    }
-  };
-
   const {
     data: sub,
     error,
     mutate,
-  } = useSWR(subName ? `/subs/${subName}` : null, fetcher);
+  } = useSWR(subName ? `/subs/${subName}` : null);
 
   useEffect(() => {
     if (!sub || !user) return;
