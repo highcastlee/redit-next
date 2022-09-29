@@ -56,6 +56,7 @@ const PostPage = () => {
         body: newComment,
       });
       setNewComment('');
+      commentMutate();
     } catch (error) {
       console.log(error);
     }
