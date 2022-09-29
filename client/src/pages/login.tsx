@@ -1,37 +1,41 @@
-import { ACTION, useAuthDispatch, useAuthState } from "../context/auth";
-import React, { FormEvent, useState } from "react";
+import { ACTION, useAuthDispatch, useAuthState } from '../context/auth';
+import React, { FormEvent, useState } from 'react';
 
-import InputGroup from "../components/InputGroup";
-import Link from "next/link";
-import axios from "axios";
-import { useRouter } from "next/router";
+import InputGroup from '../components/InputGroup';
+import Link from 'next/link';
+import axios from 'axios';
+import { useRouter } from 'next/router';
 
-function Login(){
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+function Login() {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const [errors, setErrors] = useState<any>({});
   const dispatch = useAuthDispatch();
-  const {authenticated} = useAuthState();
+  const { authenticated } = useAuthState();
   let router = useRouter();
-  
-  if(authenticated) router.push("/");
 
-  const handleSubmit = async (e:FormEvent) => {
+  if (authenticated) router.push('/');
+
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    try{
-      const res = await axios.post("/auth/login", {
-        password,
-        username
-      },{
-        withCredentials: true
-      })
-      dispatch(ACTION.LOGIN, res.data?.user)
-      router.push("./");
-    }catch(error:any){
-      setErrors(error.response.data || {})
+    try {
+      const res = await axios.post(
+        '/auth/login',
+        {
+          password,
+          username,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      dispatch(ACTION.LOGIN, res.data?.user);
+      router.push('./');
+    } catch (error: any) {
+      setErrors(error.response.data || {});
     }
-  }
-  
+  };
+
   return (
     <div className="bg-white">
       <div className="flex flex-col items-center justify-center h-screen p-6">
@@ -57,15 +61,15 @@ function Login(){
             </button>
           </form>
           <small>
-              아직 아이디가 없나요?
-              <Link href="/register">
-                  <a className="ml-1 text-blue-500 uppercase">회원가입</a>
-              </Link>
+            아직 아이디가 없나요?
+            <Link href="/register">
+              <a className="ml-1 text-blue-500 uppercase">회원가입</a>
+            </Link>
           </small>
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 export default Login;

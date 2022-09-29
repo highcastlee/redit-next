@@ -1,88 +1,86 @@
-import { createContext, useContext, useEffect, useReducer } from "react";
+import { createContext, useContext, useEffect, useReducer } from 'react';
 
-import { User } from "../types";
-import axios from "axios";
+import { User } from '../types';
+import axios from 'axios';
 
 interface State {
   authenticated: boolean;
-  user : User | undefined;
+  user: User | undefined;
   loading: boolean;
 }
 
 interface Action {
   type: string;
-  payload : any;
+  payload: any;
 }
 
 const initialState = {
   authenticated: false,
   user: undefined,
-  loading : true,
-}
+  loading: true,
+};
 
-const StateContext = createContext<State>(initialState)
+const StateContext = createContext<State>(initialState);
 
-const DispatchContext = createContext<any>(()=>{
-
-})
+const DispatchContext = createContext<any>(() => {});
 
 export const ACTION = {
-  LOGIN : "LOGIN",
-  LOGOUT: "LOGOUT",
-  STOP_LOADING: "STOP_LOADING"
-}
+  LOGIN: 'LOGIN',
+  LOGOUT: 'LOGOUT',
+  STOP_LOADING: 'STOP_LOADING',
+};
 
-const reducer = (state: State, {type, payload}: Action) => {
-  switch(type){
-    case "LOGIN":
+const reducer = (state: State, { type, payload }: Action) => {
+  switch (type) {
+    case 'LOGIN':
       return {
         ...state,
         authenticated: true,
-        user: payload
-      }
-    case "LOGOUT":
+        user: payload,
+      };
+    case 'LOGOUT':
       return {
         ...state,
         authenticated: false,
-        user: null
-      }
-    case "STOP_LOADING":
+        user: null,
+      };
+    case 'STOP_LOADING':
       return {
         ...state,
-        loading: false
-      }
+        loading: false,
+      };
     default:
-      throw new Error("Unknow")
+      throw new Error('Unknow');
   }
-}
+};
 
-export const AuthProvider = ({children}:{children:React.ReactNode}) => {
-  const [state, defaultDispatch] = useReducer(reducer, initialState)
-  
-  const dispatch = (type:string, payload?:any) => {
-    defaultDispatch({type, payload});
-  }
+export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+  const [state, defaultDispatch] = useReducer(reducer, initialState);
 
-  useEffect(()=>{
-    async function loadUser(){
-      try{
-        const res = await axios.get("/auth/me");
-        dispatch("LOGIN", res.data);
-      }catch(error){
+  const dispatch = (type: string, payload?: any) => {
+    defaultDispatch({ type, payload });
+  };
+
+  useEffect(() => {
+    async function loadUser() {
+      try {
+        const res = await axios.get('/auth/me');
+        dispatch('LOGIN', res.data);
+      } catch (error) {
         console.log(error);
-      }finally{
-        dispatch("STOP_LOADING");
+      } finally {
+        dispatch('STOP_LOADING');
       }
     }
     loadUser();
-  },[]);
+  }, []);
 
   return (
     <DispatchContext.Provider value={dispatch}>
       <StateContext.Provider value={state}>{children}</StateContext.Provider>
     </DispatchContext.Provider>
-  )
-}
+  );
+};
 
 export const useAuthState = () => useContext(StateContext);
 export const useAuthDispatch = () => useContext(DispatchContext);

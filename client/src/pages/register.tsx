@@ -1,35 +1,34 @@
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent, useState } from 'react';
 
-import InputGroup from "../components/InputGroup";
-import Link from "next/link";
-import axios from "axios";
-import { useAuthState } from "../context/auth";
-import { useRouter } from "next/router";
+import InputGroup from '../components/InputGroup';
+import Link from 'next/link';
+import axios from 'axios';
+import { useAuthState } from '../context/auth';
+import { useRouter } from 'next/router';
 
-function Register(){
-  const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+function Register() {
+  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const [errors, setErrors] = useState<any>({});
-  const {authenticated} = useAuthState();
+  const { authenticated } = useAuthState();
   let router = useRouter();
 
-  if(authenticated) router.push("/");
-  const handleSubmit = async (e:FormEvent) => {
+  if (authenticated) router.push('/');
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    try{
-      const res = await axios.post("/auth/register", {
+    try {
+      const res = await axios.post('/auth/register', {
         email,
         password,
-        username
-      })
+        username,
+      });
       console.log(res);
-      router.push("./login");
-    }catch(error:any){
-      setErrors(error.response.data || {})
+      router.push('./login');
+    } catch (error: any) {
+      setErrors(error.response.data || {});
     }
-  
-  }
+  };
 
   return (
     <div className="bg-white">
@@ -63,15 +62,15 @@ function Register(){
             </button>
           </form>
           <small>
-              이미 가입하셨나요?
-              <Link href="/login">
-                  <a className="ml-1 text-blue-500 uppercase">로그인</a>
-              </Link>
+            이미 가입하셨나요?
+            <Link href="/login">
+              <a className="ml-1 text-blue-500 uppercase">로그인</a>
+            </Link>
           </small>
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 export default Register;

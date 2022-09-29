@@ -1,29 +1,29 @@
-import { Post, Sub } from '../types'
+import { Post, Sub } from '../types';
 import useSWRInfinite from 'swr/infinite';
 // import PostCard from '../components/PostCard'
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react';
 
-import Image from 'next/image'
-import Link from 'next/link'
-import type { NextPage } from 'next'
-import axios from 'axios'
-import { useAuthState } from '../context/auth'
+import Image from 'next/image';
+import Link from 'next/link';
+import type { NextPage } from 'next';
+import axios from 'axios';
+import { useAuthState } from '../context/auth';
 import useSWR from 'swr';
 
 const Home: NextPage = () => {
   const { authenticated } = useAuthState();
 
-  const fetcher = async (url:string) => {
-    return await axios.get(url).then((res)=> res.data);
+  const fetcher = async (url: string) => {
+    return await axios.get(url).then((res) => res.data);
   };
 
-  const address = "http://localhost:4000/api/subs/sub/topSubs";
-  const { data : topSubs } = useSWR<Sub[]>(address, fetcher);
-  console.log(topSubs)
+  const address = 'http://localhost:4000/api/subs/sub/topSubs';
+  const { data: topSubs } = useSWR<Sub[]>(address, fetcher);
+  console.log(topSubs);
   return (
-    <div className='flex max-w-5xl px-4 pt-5 mx-auto'>
+    <div className="flex max-w-5xl px-4 pt-5 mx-auto">
       {/* 포스트 리스트 */}
-      <div className='w-full md:mr-3 md:w-8/12'>
+      <div className="w-full md:mr-3 md:w-8/12">
         {/* {isInitialLoading && <p className="text-lg text-center">로딩중입니다...</p>}
         {posts?.map(post => (
           <PostCard
@@ -32,14 +32,13 @@ const Home: NextPage = () => {
             mutate={mutate}
           />
         ))} */}
-
       </div>
 
       {/* 사이드바 */}
-      <div className='hidden w-4/12 ml-3 md:block'>
-        <div className='bg-white border rounded'>
-          <div className='p-4 border-b'>
-            <p className='text-lg font-semibold text-center'>상위 커뮤니티</p>
+      <div className="hidden w-4/12 ml-3 md:block">
+        <div className="bg-white border rounded">
+          <div className="p-4 border-b">
+            <p className="text-lg font-semibold text-center">상위 커뮤니티</p>
           </div>
 
           {/* 커뮤니티 리스트 */}
@@ -61,33 +60,27 @@ const Home: NextPage = () => {
                   </a>
                 </Link>
                 <Link href={`/r/${sub.name}`}>
-                  <a className='ml-2 font-bold hover:cursor-pointer'>
+                  <a className="ml-2 font-bold hover:cursor-pointer">
                     {sub.name}
                   </a>
                 </Link>
-                <p className='ml-auto font-md'>{sub.postCount}</p>
+                <p className="ml-auto font-md">{sub.postCount}</p>
               </div>
             ))}
-
-
           </div>
-          {authenticated &&
-            <div className='w-full py-6 text-center'>
+          {authenticated && (
+            <div className="w-full py-6 text-center">
               <Link href="/subs/create">
-                <a className='w-full p-2 text-center text-white bg-gray-400 rounded'>
+                <a className="w-full p-2 text-center text-white bg-gray-400 rounded">
                   커뮤니티 만들기
                 </a>
               </Link>
             </div>
-          }
+          )}
         </div>
       </div>
-
-
-
-
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
