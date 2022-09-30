@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
-import { FaArrowDown, FaArrowUp } from 'react-icons/fa';
+import { FaArrowDown, FaArrowUp, FaCommentAlt } from 'react-icons/fa';
 import { useAuthState } from '../context/auth';
 import { Post } from '../types';
 
@@ -124,7 +124,7 @@ const PostCard = ({
         <div className="flex">
           <Link href={url}>
             <a>
-              <i className="mr-1 fas fa-comment-alt fa-xs"></i>
+              <FaCommentAlt className="inline-block" />
               <span>{commentCount}</span>
             </a>
           </Link>
