@@ -22,7 +22,7 @@ function SubCreate() {
       const res = await axios.post('/subs', { name, title, description });
 
       router.push(`/r${res.data.name}`);
-    } catch (error) {
+    } catch (error: any) {
       setErrors(error.response.data);
     }
   };
@@ -87,7 +87,9 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
     const cookie = req.headers.cookie;
     if (!cookie) throw new Error('Missing auth token cookie');
 
-    await axios.get('/auth/me', { headers: { cookie } });
+    await axios.get(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/api/auth/me`, {
+      headers: { cookie },
+    });
 
     return { props: {} };
   } catch (error) {

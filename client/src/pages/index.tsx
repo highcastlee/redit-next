@@ -35,7 +35,7 @@ const Home: NextPage = () => {
   const isInitialLoading = !data && !error;
   const posts: Post[] = data ? ([] as Post[]).concat(...data) : [];
 
-  const address = 'http://localhost:4000/api/subs/sub/topSubs';
+  const address = `/subs/sub/topSubs`;
   const { data: topSubs } = useSWR<Sub[]>(address, fetcher);
 
   const [observedPost, setObservedPost] = useState('');
